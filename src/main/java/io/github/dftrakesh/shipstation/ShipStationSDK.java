@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.AUTHORIZATION;
-import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.BASE_END_POINT;
 import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.MAX_ATTEMPTS;
 import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.TIME_OUT_DURATION;
 
@@ -28,43 +27,44 @@ public class ShipStationSDK {
     }
 
     @SneakyThrows
-    protected HttpRequest get(String path) {
-        return HttpRequest.newBuilder(URI.create(BASE_END_POINT + path))
+    protected HttpRequest get(URI uri) {
+        return HttpRequest.newBuilder(uri)
                           .header(AUTHORIZATION, "Basic " + this.authentication)
                           .GET()
                           .build();
     }
 
     @SneakyThrows
-    protected HttpRequest post(String path, final String jsonBody) {
-        return HttpRequest.newBuilder(URI.create(BASE_END_POINT + path))
+    protected HttpRequest post(URI uri, final String jsonBody) {
+        return HttpRequest.newBuilder(uri)
                           .header(AUTHORIZATION, "Basic " + this.authentication)
                           .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                           .build();
     }
 
     @SneakyThrows
-    protected HttpRequest put(String path, final String jsonBody) {
-        return HttpRequest.newBuilder(URI.create(BASE_END_POINT + path))
+    protected HttpRequest put(URI uri, final String jsonBody) {
+        return HttpRequest.newBuilder(uri)
                           .header(AUTHORIZATION, "Basic " + this.authentication)
                           .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
                           .build();
     }
 
     @SneakyThrows
-    protected HttpRequest delete(String path) {
-        return HttpRequest.newBuilder(URI.create(BASE_END_POINT + path))
+    protected HttpRequest delete(URI uri) {
+        return HttpRequest.newBuilder(uri)
                           .header(AUTHORIZATION, "Basic " + this.authentication)
                           .DELETE()
                           .build();
     }
 
     @SneakyThrows
-    protected String addParameters(String path, HashMap<String, String> params) {
+    protected URI addParameters(URI uri, HashMap<String, String> params) {
 
+        String query = uri.getQuery();
         StringBuilder builder = new StringBuilder();
-        if (path != null)
-            builder.append(path);
+        if (query != null)
+            builder.append(query);
 
         for (Map.Entry<String, String> entry : params.entrySet()) {
             String keyValueParam = entry.getKey() + "=" + entry.getValue();
@@ -72,7 +72,7 @@ public class ShipStationSDK {
                 builder.append("&");
             builder.append(keyValueParam);
         }
-        return builder.toString();
+        return new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
     }
 
     @SneakyThrows
