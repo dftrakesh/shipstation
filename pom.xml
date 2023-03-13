@@ -9,7 +9,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-	<name>ship-station</name>
+    <name>ship-station</name>
     <description>ShipStation API using JDK 11</description>
     <url>https://github.com/dftrakesh/shipstation</url>
 
