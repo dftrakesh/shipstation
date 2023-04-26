@@ -1,6 +1,7 @@
 package io.github.dftrakesh.shipstation;
 
 import lombok.SneakyThrows;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -9,6 +10,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+
 import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.AUTHORIZATION;
 import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.MAX_ATTEMPTS;
 import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.TIME_OUT_DURATION;
@@ -21,46 +23,44 @@ public class ShipStationSDK {
     public ShipStationSDK(String userName, String password) {
         client = HttpClient.newHttpClient();
         String authString = userName + ":" + password;
-        byte[] authEncBytes = Base64.getEncoder()
-                                    .encode(authString.getBytes());
+        byte[] authEncBytes = Base64.getEncoder().encode(authString.getBytes());
         this.authentication = new String(authEncBytes);
     }
 
     @SneakyThrows
     protected HttpRequest get(URI uri) {
         return HttpRequest.newBuilder(uri)
-                          .header(AUTHORIZATION, "Basic " + this.authentication)
-                          .GET()
-                          .build();
+                .header(AUTHORIZATION, "Basic " + this.authentication)
+                .GET()
+                .build();
     }
 
     @SneakyThrows
     protected HttpRequest post(URI uri, final String jsonBody) {
         return HttpRequest.newBuilder(uri)
-                          .header(AUTHORIZATION, "Basic " + this.authentication)
-                          .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-                          .build();
+                .header(AUTHORIZATION, "Basic " + this.authentication)
+                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
     }
 
     @SneakyThrows
     protected HttpRequest put(URI uri, final String jsonBody) {
         return HttpRequest.newBuilder(uri)
-                          .header(AUTHORIZATION, "Basic " + this.authentication)
-                          .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
-                          .build();
+                .header(AUTHORIZATION, "Basic " + this.authentication)
+                .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
     }
 
     @SneakyThrows
     protected HttpRequest delete(URI uri) {
         return HttpRequest.newBuilder(uri)
-                          .header(AUTHORIZATION, "Basic " + this.authentication)
-                          .DELETE()
-                          .build();
+                .header(AUTHORIZATION, "Basic " + this.authentication)
+                .DELETE()
+                .build();
     }
 
     @SneakyThrows
     protected URI addParameters(URI uri, HashMap<String, String> params) {
-
         String query = uri.getQuery();
         StringBuilder builder = new StringBuilder();
         if (query != null)
@@ -77,11 +77,10 @@ public class ShipStationSDK {
 
     @SneakyThrows
     public <T> T getRequestWrapped(HttpRequest request, HttpResponse.BodyHandler<T> handler) {
-
         return client.sendAsync(request, handler)
-                     .thenComposeAsync(response -> tryResend(client, request, handler, response, 1))
-                     .get()
-                     .body();
+                .thenComposeAsync(response -> tryResend(client, request, handler, response, 1))
+                .get()
+                .body();
     }
 
     @SneakyThrows
@@ -92,7 +91,7 @@ public class ShipStationSDK {
         if (resp.statusCode() == 409 && count < MAX_ATTEMPTS) {
             Thread.sleep(TIME_OUT_DURATION);
             return client.sendAsync(request, handler)
-                         .thenComposeAsync(response -> tryResend(client, request, handler, response, count + 1));
+                    .thenComposeAsync(response -> tryResend(client, request, handler, response, count + 1));
         }
         return CompletableFuture.completedFuture(resp);
     }
