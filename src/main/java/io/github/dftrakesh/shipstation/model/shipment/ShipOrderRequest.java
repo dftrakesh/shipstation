@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShipOrderRequest {
-    private int orderId;
+    private Integer orderId;
     private String carrierCode;
     private String shipDate;
     private String trackingNumber;
-    private boolean notifyCustomer;
-    private boolean notifySalesChannel;
+    private Boolean notifyCustomer;
+    private Boolean notifySalesChannel;
 }

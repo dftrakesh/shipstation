@@ -6,6 +6,6 @@ import lombok.ToString;
 @Data
 @ToString
 public class ShipOrderResponse {
-    private int orderId;
+    private Integer orderId;
     private String orderNumber;
 }
