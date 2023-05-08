@@ -1,20 +1,27 @@
 package io.github.dftrakesh.shipstation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.dftrakesh.shipstation.handler.JsonBodyHandler;
 import io.github.dftrakesh.shipstation.model.order.Order;
 import io.github.dftrakesh.shipstation.model.order.OrdersResponse;
+import io.github.dftrakesh.shipstation.model.shipment.ShipOrderRequest;
+import io.github.dftrakesh.shipstation.model.shipment.ShipOrderResponse;
 import lombok.SneakyThrows;
+
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
-import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.BASE_END_POINT;
-import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.ORDERS_LIST_END_POINT;
+
+import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.*;
 
 public class OrderAPI extends ShipStationSDK {
 
+    private final ObjectMapper objectMapper;
+
     public OrderAPI(String userName, String password) {
         super(userName, password);
+        objectMapper = new ObjectMapper();
     }
 
     @SneakyThrows
@@ -33,6 +40,15 @@ public class OrderAPI extends ShipStationSDK {
 
         HttpRequest request = get(uri);
         HttpResponse.BodyHandler<Order> handler = new JsonBodyHandler<>(Order.class);
+        return getRequestWrapped(request, handler);
+    }
+
+    @SneakyThrows
+    public ShipOrderResponse markAsShipped(ShipOrderRequest shipOrderRequest) {
+        URI uri = new URI(BASE_END_POINT + ORDER_MARK_AS_SHIPPED);
+        String jsonBody = objectMapper.writeValueAsString(shipOrderRequest);
+        HttpRequest request = post(uri, jsonBody);
+        HttpResponse.BodyHandler<ShipOrderResponse> handler = new JsonBodyHandler<>(ShipOrderResponse.class);
         return getRequestWrapped(request, handler);
     }
 }
