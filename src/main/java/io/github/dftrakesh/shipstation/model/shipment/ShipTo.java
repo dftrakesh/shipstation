@@ -11,7 +11,7 @@ public class ShipTo {
     private String company;
     private String street1;
     private String street2;
-    private Object street3;
+    private String street3;
     private String city;
     private String state;
     private String postalCode;
