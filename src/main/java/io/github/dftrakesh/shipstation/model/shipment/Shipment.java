@@ -1,9 +1,11 @@
 package io.github.dftrakesh.shipstation.model.shipment;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.dftrakesh.shipstation.model.order.*;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Shipment {
 
     private Long shipmentId;
