@@ -6,7 +6,7 @@
 
     <groupId>io.github.dftrakesh</groupId>
     <artifactId>shipstation</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>ship-station</name>
