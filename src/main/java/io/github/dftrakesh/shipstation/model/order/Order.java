@@ -44,7 +44,7 @@ public class Order {
     private InsuranceOptions insuranceOptions;
     private InternationalOptions internationalOptions;
     private AdvancedOptions advancedOptions;
-    private Integer tagIds;
+    private List<Integer> tagIds;
     private String userId;
     private Boolean externallyFulfilled;
     private String externallyFulfilledBy;

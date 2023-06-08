@@ -11,9 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.AUTHORIZATION;
-import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.MAX_ATTEMPTS;
-import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.TIME_OUT_DURATION;
+import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.*;
 
 public class ShipStationSDK {
 
@@ -39,6 +37,7 @@ public class ShipStationSDK {
     protected HttpRequest post(URI uri, final String jsonBody) {
         return HttpRequest.newBuilder(uri)
                 .header(AUTHORIZATION, "Basic " + this.authentication)
+                .header(HTTP_REQUEST_PROPERTY_CONTENT_TYPE, HTTP_REQUEST_CONTENT_TYPE_JSON)
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
     }
