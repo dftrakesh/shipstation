@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class JsonBodyHandler<W> implements HttpResponse.BodyHandler<W> {
 
-    private Class<W> wClass;
+    private final Class<W> wClass;
 
     public JsonBodyHandler(Class<W> wClass) {
         this.wClass = wClass;
@@ -19,7 +19,7 @@ public class JsonBodyHandler<W> implements HttpResponse.BodyHandler<W> {
         return asJSON(wClass);
     }
 
-    public static <T> HttpResponse.BodySubscriber<T> asJSON(Class<T> targetType) {
+    public <T> HttpResponse.BodySubscriber<T> asJSON(Class<T> targetType) {
         HttpResponse.BodySubscriber<String> upstream = HttpResponse.BodySubscribers.ofString(StandardCharsets.UTF_8);
 
         return HttpResponse.BodySubscribers.mapping(
@@ -29,7 +29,7 @@ public class JsonBodyHandler<W> implements HttpResponse.BodyHandler<W> {
                         ObjectMapper objectMapper = new ObjectMapper();
                         return objectMapper.readValue(body, targetType);
                     } catch (IOException e) {
-                        throw new UncheckedIOException(e);
+                        return null;
                     }
                 });
     }
