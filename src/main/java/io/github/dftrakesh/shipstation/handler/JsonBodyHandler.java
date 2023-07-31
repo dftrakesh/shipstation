@@ -26,8 +26,11 @@ public class JsonBodyHandler<W> implements HttpResponse.BodyHandler<W> {
                 upstream,
                 (String body) -> {
                     try {
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        return objectMapper.readValue(body, targetType);
+                        if (!body.equals("Too Many Request")) {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            return objectMapper.readValue(body, targetType);
+                        }
+                        return null;
                     } catch (IOException exception) {
                         throw new UncheckedIOException(exception);
                     }
