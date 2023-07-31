@@ -28,8 +28,8 @@ public class JsonBodyHandler<W> implements HttpResponse.BodyHandler<W> {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
                         return objectMapper.readValue(body, targetType);
-                    } catch (IOException e) {
-                        return null;
+                    } catch (IOException exception) {
+                        throw new UncheckedIOException(exception);
                     }
                 });
     }
