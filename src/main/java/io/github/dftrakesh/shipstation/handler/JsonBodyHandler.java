@@ -2,7 +2,6 @@ package io.github.dftrakesh.shipstation.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
@@ -28,7 +27,7 @@ public class JsonBodyHandler<W> implements HttpResponse.BodyHandler<W> {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
                         return objectMapper.readValue(body, targetType);
-                    } catch (IOException e) {
+                    } catch (IOException exception) {
                         return null;
                     }
                 });
