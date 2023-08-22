@@ -11,4 +11,5 @@ public interface ConstantCodes {
     String HTTP_REQUEST_CONTENT_TYPE_JSON = "application/json";
     int MAX_ATTEMPTS = 40;
     int TIME_OUT_DURATION = 1500;
+    String QUERY_PARAM_PAGE = "page";
 }

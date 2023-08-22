@@ -2,15 +2,20 @@ package io.github.dftrakesh.shipstation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-
-import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.*;
+import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.AUTHORIZATION;
+import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.HTTP_REQUEST_CONTENT_TYPE_JSON;
+import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.HTTP_REQUEST_PROPERTY_CONTENT_TYPE;
+import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.MAX_ATTEMPTS;
+import static io.github.dftrakesh.shipstation.constantcode.ConstantCodes.TIME_OUT_DURATION;
 
 public class ShipStationSDK {
 
@@ -84,6 +89,22 @@ public class ShipStationSDK {
             builder.append(keyValueParam);
         }
         return new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
+    }
+
+    protected HashMap<String, String> getQueryParamMap(String url) {
+        HashMap<String, String> queryMap = new HashMap<>();
+        URI uri = URI.create(url);
+
+        String query = uri.getQuery();
+        Arrays.stream(query.split("&"))
+              .map(param -> param.split("="))
+              .forEach(pair -> {
+                  String key = pair[0];
+                  String value = pair[1];
+                  queryMap.put(key, value);
+              });
+
+        return queryMap;
     }
 
     @SneakyThrows
