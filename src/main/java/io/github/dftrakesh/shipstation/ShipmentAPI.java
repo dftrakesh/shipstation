@@ -29,4 +29,12 @@ public class ShipmentAPI extends ShipStationSDK {
         return getRequestWrapped(request, handler);
     }
 
+    @SneakyThrows
+    public ShipmentResponse getShipment(String url) {
+        URI uri = URI.create(url);
+        HttpRequest request = get(uri);
+        HttpResponse.BodyHandler<ShipmentResponse> handler = new JsonBodyHandler<>(ShipmentResponse.class);
+        return getRequestWrapped(request, handler);
+    }
+
 }

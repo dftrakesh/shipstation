@@ -58,7 +58,6 @@ public class ShipStationSDK {
                 .build();
     }
 
-
     @SneakyThrows
     protected HttpRequest put(URI uri, final String jsonBody) {
         return HttpRequest.newBuilder(uri)
