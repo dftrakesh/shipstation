@@ -26,7 +26,8 @@ public class JsonBodyHandler<W> implements HttpResponse.BodyHandler<W> {
                 (String body) -> {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
-                        return objectMapper.readValue(body, targetType);
+                        T t = objectMapper.readValue(body, targetType);
+                        return t;
                     } catch (IOException exception) {
                         return null;
                     }
