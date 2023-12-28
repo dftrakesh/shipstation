@@ -14,4 +14,5 @@ public interface ConstantCodes {
     int MAX_ATTEMPTS = 40;
     int TIME_OUT_DURATION = 1500;
     String QUERY_PARAM_PAGE = "page";
+    String STORE_LIST_END_POINT = "/stores";
 }
