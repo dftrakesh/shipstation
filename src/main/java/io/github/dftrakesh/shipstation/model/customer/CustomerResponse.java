@@ -21,4 +21,3 @@ public class CustomerResponse {
     public String email;
     public String addressVerified;
 }
-
